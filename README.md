@@ -57,6 +57,7 @@ npm run dev
 http://localhost:5173
 
 ## Structure du projet
+```
 src/
  ├── assets/               # Images et ressources
  ├── components/           # Composants réutilisables (Header, SearchBar, MovieList, MovieQuiz…)
@@ -67,6 +68,7 @@ src/
  ├── styles/               # Fichiers CSS (index.css, tokens.css)
  ├── App.jsx               # Point central avec les routes
  └── main.jsx              # Point d’entrée React
+```
 
 ## Déploiement sur Vercel
 Pousser le projet sur GitHub.
