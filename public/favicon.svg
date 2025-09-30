@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 256 256">
+  <!-- triangle play jaune -->
+  <polygon points="96,64 176,128 96,192" fill="#FACC15"/>
+  <rect x="0" y="0" width="256" height="256" fill="none"/>
+</svg>

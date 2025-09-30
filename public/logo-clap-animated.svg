@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="180" viewBox="0 0 500 180">
+  <style>
+    .text { font-family: 'Bebas Neue', sans-serif; font-weight: 700; font-size: 120px; }
+    .play {
+      transform-origin: center;
+      animation: pulse 1.2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%   { transform: scale(1);   opacity: 1; }
+      50%  { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+  </style>
+  <text x="0" y="120" class="text" fill="#0B1220">CL</text>
+  <!-- A remplacé par le triangle play -->
+  <polygon class="play" points="180,40 220,80 180,120" fill="#FACC15"/>
+  <text x="240" y="120" class="text" fill="#0B1220">P!</text>
+</svg>

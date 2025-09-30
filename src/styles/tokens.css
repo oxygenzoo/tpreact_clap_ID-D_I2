@@ -1,0 +1,20 @@
+:root {
+  --bg:#0b1220;
+  --card:#0f172a;
+  --text:#e6ecff;
+  --muted:#93a1c7;
+  --border:#1e2843;
+  --primary:#facc15;
+  --shadow:0 8px 24px rgba(0,0,0,.35);
+  --white:#ffffff;
+}
+
+:root[data-theme="light"] {
+  --bg:#f7f8fc;
+  --card:#ffffff;
+  --text:#0b1220;
+  --muted:#475070;
+  --border:#e6e8f2;
+  --primary:#facc15;
+  --shadow:0 8px 24px rgba(17,24,39,.08);
+}

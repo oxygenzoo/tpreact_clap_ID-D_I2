@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="180" viewBox="0 0 500 180">
+  <style>
+    .text { font-family: 'Bebas Neue', sans-serif; font-weight: 700; font-size: 120px; }
+  </style>
+  <text x="0" y="120" class="text" fill="#0B1220">CL</text>
+  <!-- A en forme de play -->
+  <polygon points="180,40 220,80 180,120" fill="#FACC15"/>
+  <text x="240" y="120" class="text" fill="#0B1220">P!</text>
+</svg>
