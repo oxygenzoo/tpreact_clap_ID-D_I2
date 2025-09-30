@@ -1,59 +1,58 @@
-const API_KEY = import.meta.env.VITE_OMDB_API_KEY; // ⚠️ garde ce nom exact dans ton .env
+const API_KEY = import.meta.env.VITE_OMDB_API_KEY
 
 if (!API_KEY) {
-  console.error("[OMDb] ❌ Clé API manquante. Ajoute VITE_OMDB_API_KEY=xxx dans ton .env");
+  console.error("[OMDb] Clé API manquante → ajouter VITE_OMDB_API_KEY=xxx dans .env")
 }
 
-// 🔍 Recherche de films/séries
+// Fonction pour chercher une liste de films/séries via OMDb
 export async function searchMovies({ q, type = "", year = "", page = 1 }) {
+  // si pas de mot-clé → pas d’appel API
   if (!q || !q.trim()) {
-    console.warn("[OMDb] Recherche ignorée car q est vide");
-    return { items: [], total: 0, error: "" };
+    return { items: [], total: 0, error: "" }
   }
 
-  const params = new URLSearchParams();
-  params.set("apikey", API_KEY);
-  params.set("s", q.trim());
-  if (type) params.set("type", type);
-  if (year) params.set("y", year);
-  params.set("page", page);
+  // construction des paramètres de la requête
+  const params = new URLSearchParams()
+  params.set("apikey", API_KEY)
+  params.set("s", q.trim()) // "s" = search dans OMDb
+  if (type) params.set("type", type) // filtre type (film, série…)
+  if (year) params.set("y", year)    // filtre année
+  params.set("page", page)           // pagination (10 résultats max/page)
 
-  const url = `https://www.omdbapi.com/?${params.toString()}`;
-  console.log("🌍 Appel API searchMovies →", url);
+  const url = `https://www.omdbapi.com/?${params.toString()}`
+  const res = await fetch(url)
+  const data = await res.json()
 
-  const res = await fetch(url);
-  const data = await res.json();
-  console.log("📩 Réponse OMDb searchMovies →", data);
-
+  // si OMDb renvoie une erreur → on gère proprement
   if (data.Response === "False") {
-    return { items: [], total: 0, error: data.Error };
+    return { items: [], total: 0, error: data.Error }
   }
 
+  // sinon → on renvoie résultats + nombre total
   return {
     items: data.Search || [],
     total: parseInt(data.totalResults || "0", 10),
     error: "",
-  };
+  }
 }
 
-// 🎬 Détails d’un film
+// Fonction pour récupérer les détails complets d’un film/série
 export async function fetchDetails(id) {
-  if (!id) throw new Error("Missing IMDb ID");
-  const params = new URLSearchParams();
-  params.set("apikey", API_KEY);
-  params.set("i", id);
-  params.set("plot", "full");
+  if (!id) throw new Error("Missing IMDb ID")
 
-  const url = `https://www.omdbapi.com/?${params.toString()}`;
-  console.log("🌍 Appel API fetchDetails →", url);
+  const params = new URLSearchParams()
+  params.set("apikey", API_KEY)
+  params.set("i", id)        // "i" = id IMDb
+  params.set("plot", "full") // résumé complet
 
-  const res = await fetch(url);
-  const data = await res.json();
-  console.log("📩 Réponse OMDb fetchDetails →", data);
+  const url = `https://www.omdbapi.com/?${params.toString()}`
+  const res = await fetch(url)
+  const data = await res.json()
 
+  // gestion des erreurs
   if (data.Response === "False") {
-    throw new Error(data.Error || "Film introuvable");
+    throw new Error(data.Error || "Film introuvable")
   }
 
-  return data;
+  return data // renvoie l’objet complet (titre, acteurs, etc.)
 }

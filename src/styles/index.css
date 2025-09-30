@@ -578,3 +578,48 @@ a {
     transform: translateY(0);
   }
 }
+
+/* =========================
+   DETAILS RESPONSIVE
+========================= */
+@media (max-width: 1023px) {
+  .detail {
+    grid-template-columns: 1fr; /* une seule colonne */
+    gap: 20px;
+  }
+
+  .detail-left {
+    align-items: center; /* centrer l’affiche */
+  }
+
+  .detail-left img {
+    max-width: 250px;
+    height: auto;
+  }
+
+  .detail-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .actions .btn {
+    width: 100%; /* boutons pleine largeur */
+  }
+
+  .badges {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .plot {
+    text-align: justify;
+  }
+}

@@ -6,15 +6,17 @@ import { Link } from "react-router-dom"
 import "../styles/index.css"
 
 export default function Home() {
+  // état de la recherche (query contient le texte + filtres)
   const [query, setQuery] = useState({ q: "", type: "", year: "" })
-  const [page, setPage] = useState(1)
-  const [items, setItems] = useState([])
-  const [total, setTotal] = useState(0)
-  const [state, setState] = useState("idle")
+  const [page, setPage] = useState(1)          // pagination
+  const [items, setItems] = useState([])       // résultats affichés
+  const [total, setTotal] = useState(0)        // total renvoyé par l'API
+  const [state, setState] = useState("idle")   // idle, loading, error, done
   const [error, setError] = useState("")
 
+  // déclenché à chaque fois que query ou page change
   useEffect(() => {
-    if (!query.q) return
+    if (!query.q) return // si pas de texte → ne lance pas la recherche
     let ignore = false
     async function run() {
       console.log("Appel API avec :", query, "page:", page)
@@ -28,6 +30,7 @@ export default function Home() {
         })
         if (ignore) return
         setTotal(res.total)
+        // si page=1 → reset la liste, sinon concatène
         setItems(prev => (page === 1 ? res.items : [...prev, ...res.items]))
         setError(res.error || "")
         setState("done")
@@ -38,21 +41,23 @@ export default function Home() {
       }
     }
     run()
-    return () => { ignore = true }
+    return () => { ignore = true } // annule si composant démonté
   }, [query, page])
 
+  // callback quand on soumet le formulaire de recherche
   const onSearch = ({ q, type, year }) => {
-    console.log("🔍 Form submit →", { q, type, year })
-    setQuery({ q, type, year })
-    setPage(1)
+    console.log("Form submit →", { q, type, year })
+    setQuery({ q, type, year }) // remet les filtres
+    setPage(1) // revient à la première page
   }
 
+  // bouton "charger plus" seulement si pas tout affiché
   const canMore = items.length < total
 
   return (
     <div className="container">
 
-      {/* 🟡 Hero */}
+      {/* Section d’accueil avec titre + sous-titre */}
       <section className="hero">
         <h1>
           Bienvenue sur <span className="highlight">Clap!</span>
@@ -62,20 +67,22 @@ export default function Home() {
         </p>
       </section>
 
+      {/* Lien vers le jeu */}
       <section className="quiz-section">
         <p>
           Tu penses avoir une bonne culture cinématographique ?{" "}
-          <Link to="/MovieQuiz" className="quiz-link">
+          <Link to="/jeu" className="quiz-link">
             Viens la tester juste ici
           </Link>
         </p>
       </section>
 
-      {/* 🟡 Recherche */}
+      {/* Bloc de recherche */}
       <section className="search-section">
         <h2>Cherche un film pour commencer !</h2>
         <SearchBar onSearch={onSearch} />
 
+        {/* états possibles */}
         {state === "idle" && (
           <div className="center">
             <div className="alert">Tape un titre dans la barre de recherche.</div>
@@ -98,8 +105,10 @@ export default function Home() {
           </div>
         )}
 
+        {/* affichage des films */}
         <MovieGrid items={items} />
 
+        {/* bouton pour charger la suite */}
         {canMore && state !== "loading" && (
           <div className="more-btn">
             <button
@@ -111,6 +120,7 @@ export default function Home() {
           </div>
         )}
 
+        {/* compteur résultats */}
         <div className="results-count">
           {total ? `${items.length}/${total} résultats` : ""}
         </div>

@@ -1,25 +1,30 @@
 import React, { useState } from "react";
 
 export default function SearchBar({ onSearch }) {
-  const [q, setQ] = useState("");
-  const [type, setType] = useState(""); // "" = pas de filtre
-  const [year, setYear] = useState(""); // "" = pas de filtre
+  // état pour le champ texte
+  const [q, setQ] = useState("")
+  // état pour le filtre type (films/séries/episodes)
+  const [type, setType] = useState("")
+  // état pour le filtre année
+  const [year, setYear] = useState("")
 
+  // envoi du formulaire
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!q.trim()) return;
-    console.log("🔍 Form submit →", { q, type, year });
-    onSearch?.({ q: q.trim(), type, year });
-  };
+    e.preventDefault()
+    if (!q.trim()) return // éviter requêtes vides
+    console.log("🔍 Form submit →", { q, type, year })
+    onSearch?.({ q: q.trim(), type, year }) // callback vers parent
+  }
 
-  // Génération des années de 2025 à 1950
-  const years = [];
+  // tableau des années (de 2025 à 1950)
+  const years = []
   for (let y = 2025; y >= 1950; y--) {
-    years.push(y);
+    years.push(y)
   }
 
   return (
     <form className="searchbar" onSubmit={handleSubmit}>
+      {/* champ texte */}
       <input
         type="text"
         placeholder="Rechercher..."
@@ -29,7 +34,9 @@ export default function SearchBar({ onSearch }) {
         aria-label="Champ de recherche"
       />
 
+      {/* filtres supplémentaires */}
       <div className="search-filters">
+        {/* choix du type */}
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
@@ -41,6 +48,7 @@ export default function SearchBar({ onSearch }) {
           <option value="episode">Episodes</option>
         </select>
 
+        {/* choix de l'année */}
         <select
           value={year}
           onChange={(e) => setYear(e.target.value)}
@@ -55,9 +63,10 @@ export default function SearchBar({ onSearch }) {
         </select>
       </div>
 
+      {/* bouton de validation */}
       <button type="submit" className="search-btn">
         Rechercher
       </button>
     </form>
-  );
+  )
 }
